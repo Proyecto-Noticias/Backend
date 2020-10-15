@@ -20,6 +20,7 @@
     "eslint-plugin-prettier": "^3.1.4",
     "husky": "^4.3.0",
     "lint-staged": "^10.4.0",
+    "morgan": "^1.10.0",
     "nodemon": "^2.0.4",
     "prettier": "^2.1.2"
   },

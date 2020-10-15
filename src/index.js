@@ -1,12 +1,18 @@
 const express = require('express');
 const app = express();
+const morgan = require('morgan')
 
+const router = require('./api/routes/routes.js')
 
-const { config } = require('../config/config');
+//  Server config
+const { config } = require('./config/config');
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+app.use(morgan("dev"))
 
-app.get('/', (req, res) => {
-    res.json({message: 'Hello world'});
-});
+//  routes  
+router(app);
+
 
 app.listen(config.port, () => {
     console.log(`Listening http://localhost:${config.port}`);
