@@ -14,8 +14,19 @@ const getUserByFilter = async (filter) => {
     return data
 }
 
+const getById = async (id) => {
+    const user = await Model.findById(id);
+    return user
+}
+
+const findOneUser = async (filter) => {
+    const data = await Model.findOne(filter)
+    return data
+}
 
 module.exports = {
     saveUser,
-    getUserByFilter
+    getUserByFilter,
+    getUserById: getById,
+    findOneUser
 }
