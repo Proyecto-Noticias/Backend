@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 const morgan = require('morgan')
+// eslint-disable-next-line no-unused-vars
+require("./db")
 
 const router = require('./api/routes/routes.js')
 
