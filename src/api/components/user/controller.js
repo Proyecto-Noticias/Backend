@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const userStorage = require('./store');
 const tokenEmail = require('../token/controller');
 const emailHandler = require('../../auth/sendEmailVerify');
+const jwt = require('../../auth/jwt');
 
 
 const addUser = async (firstName, lastName, email, password, host) => {
@@ -43,7 +44,32 @@ const addUser = async (firstName, lastName, email, password, host) => {
     }
 }
 
+const login = async (email, password) => {
+    if(!email || !password) {
+        const error = new Error('Missing Data 👿');
+        error.status = 400;
+    }
+    const user = await userStorage.findOneUser({email});
+    if(!user) {
+        const myError = new Error('Login failed');
+        myError.status = 400;
+        throw myError;
+    }
+    if(user.isVerified) {
+        const result = await bcrypt.compare(password, user.password);
+
+        if (result) {
+            const authToken = jwt.createToken(user);
+            return authToken;
+        }
+    } else {
+        const error = new Error('You must verify your account first! 🚦');
+        error.status = 401;
+        throw error;
+    }
+}
 
 module.exports = {
-    addUser
+    signUp: addUser,
+    login
 }
