@@ -1,6 +1,8 @@
 const express = require('express')
 const router = express.Router()
 const controller = require('./controller');
+const { userIdSchema, createUserSchema, updateUserSchema, loginSchema } = require('../../../utils/validation/userSchemas');
+const validationHandler = require('../../../utils/middlewares/validationHandler');
 //  const mock = require('../../../mocks/mock_users')
 const checkAuth = require('../../../utils/middlewares/check-auth');
 
@@ -17,7 +19,7 @@ router.get('/', async (req, res, next) => {
     }
 })
 
-router.get('/:id', async (req, res, next) => {
+router.get('/:id', validationHandler({ id: userIdSchema }, "params"), async (req, res, next) => {
     const { id } = req.params;
 
     try {
@@ -36,7 +38,7 @@ router.get('/:id', async (req, res, next) => {
     }
 })
 
-router.post('/signup', async (req, res, next) => {
+router.post('/signup', validationHandler(createUserSchema), async (req, res, next) => {
     const { firstName, lastName, email, password } = req.body;
     try {
         await controller.signUp(firstName, lastName, email, password, req.headers.host);
@@ -46,7 +48,7 @@ router.post('/signup', async (req, res, next) => {
     }
 })
 
-router.post('/login', async (req, res, next) => {
+router.post('/login', validationHandler(loginSchema), async (req, res, next) => {
    const { email, password } = req.body;
 
    try {
@@ -61,7 +63,7 @@ router.post('/login', async (req, res, next) => {
 
 })
 
-router.delete('/:id', checkAuth, async (req, res, next) => {
+router.delete('/:id', validationHandler({ id: userIdSchema }, "params"), checkAuth, async (req, res, next) => {
     const { userData } = req;
     const { id } = req.params;
     try {
@@ -75,7 +77,7 @@ router.delete('/:id', checkAuth, async (req, res, next) => {
     
 })
 
-router.patch('/:id', checkAuth, async (req, res, next) => {
+router.patch('/:id', validationHandler({ id: userIdSchema }, "params"), validationHandler(updateUserSchema), checkAuth, async (req, res, next) => {
     const { id } = req.params;
     const { userData } = req;
     const { firstName, lastName, password, isAdmin, email } = req.body;
@@ -91,5 +93,22 @@ router.patch('/:id', checkAuth, async (req, res, next) => {
     }
 })
 
+router.post('/makeAdmin', checkAuth, async(req, res, next) => {
+    const { userData } = req;
+    const { id, role } = req.body;
+    try {
+        const user = await controller.changeAdmin(id, role, userData);
+        let finalUser = {
+            email: user.email,
+            isAdmin: user.isAdmin
+        }
+        res.status(200).json({
+            Message: "User role changed successfully 🎉🍾🎊",
+            finalUser
+        })
+    } catch (error) {
+        next(error);
+    }
+})
 
 module.exports = router;

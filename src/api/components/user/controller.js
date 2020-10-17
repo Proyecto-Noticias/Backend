@@ -3,6 +3,7 @@ const userStorage = require('./store');
 const tokenEmail = require('../token/controller');
 const emailHandler = require('../../auth/sendEmailVerify');
 const jwt = require('../../auth/jwt');
+const boom = require('@hapi/boom');
 
 
 const getEveryUser = async () => {
@@ -19,15 +20,11 @@ const getOneUser = async (id) => {
 
 const addUser = async (firstName, lastName, email, password, host) => {
     if(!firstName || !lastName || !email || !password) {
-        const myError = new Error('Missing Data 🐭');
-        myError.status = 400;
-        throw myError
+        throw boom.badData('Missing data 🐭');
     }
     const emailExists = await userStorage.getUserByFilter({ email });
     if(emailExists.length >= 1) {
-        const myError = new Error('Email already in use 😵');
-        myError.status = 409;
-        throw myError
+        throw boom.conflict('Email already in use 😪😪😪');
     } else {
         const hashedPassword = await new Promise((resolve, reject) => {
             bcrypt.hash(password, 10, async(err, hashed) => {
@@ -49,23 +46,18 @@ const addUser = async (firstName, lastName, email, password, host) => {
             const finalToken = await tokenEmail.createToken(newUser._id);
             emailHandler.sendEmail(user.firstName, user.email, finalToken.token, host);
         } catch (error) {
-            const myError = new Error('Error sending email with token');
-            myError.status = 500;
-            throw myError
+            throw boom.internal('Error sending email verification 💔🙏🏾🙏🏾🙏🏾');
         }
     }
 }
 
 const login = async (email, password) => {
     if(!email || !password) {
-        const error = new Error('Missing Data 👿');
-        error.status = 400;
+        throw boom.badRequest('Email & password needed 🔑🔑');
     }
     const user = await userStorage.findOneUser({email});
     if(!user) {
-        const myError = new Error('Login failed');
-        myError.status = 400;
-        throw myError;
+        throw boom.notFound("that user doesnt exists! 🎆🎆🎆");
     }
     if(user.isVerified) {
         const result = await bcrypt.compare(password, user.password);
@@ -73,19 +65,17 @@ const login = async (email, password) => {
         if (result) {
             const authToken = jwt.createToken(user);
             return authToken;
+        } else {
+            throw boom.unauthorized();
         }
     } else {
-        const error = new Error('You must verify your account first! 🚦');
-        error.status = 401;
-        throw error;
+        throw boom.unauthorized('You must verify your account first! 🚦');
     }
 }
 
 const deleteUser = async (id, jwtUser) => {
-    if(id !== jwtUser.id && !jwtUser.isAdmin){
-        let error = new Error('you dont have permissions😔🙏');
-        error.status = 401;
-        throw error;
+    if(id !== jwtUser.id || !jwtUser.isAdmin){
+        throw boom.unauthorized('you dont have permissions to do that action 😔🙏');
     }
 
     await userStorage.deleteOneUser({_id: id});
@@ -93,15 +83,11 @@ const deleteUser = async (id, jwtUser) => {
 
 const editUser = async (id, name, last, email, password, isAdmin, jwtUser) => {
 
-    if(id !== jwtUser.id && jwtUser.isAdmin === false){
-        let error = new Error('you dont have permissions😔🙏');
-        error.status = 401;
-        throw error;
+    if(id !== jwtUser.id || !jwtUser.isAdmin){
+        throw boom.unauthorized('you dont have permissions to do that action 😔🙏');
     }
     if(!id) {
-        const err = new Error("User id needed");
-        err.status = 401;
-        throw err;
+        throw boom.badRequest('Id is needed! 😠😠');
     }
 
     const userSaved = await userStorage.findOneUser({_id: id})
@@ -131,11 +117,22 @@ const editUser = async (id, name, last, email, password, isAdmin, jwtUser) => {
     return updated
 }
 
+const changeAdmin = async(id, role, authUser) => {
+    if(authUser.isAdmin){
+        const user = await userStorage.findOneUser({_id: id});
+        user.isAdmin = role;
+        return await userStorage.saveUser(user);
+    } else {
+        throw boom.unauthorized('You dont have permissions to exec that action!!! 🏃🏾‍♀️🏃🏾‍♂️👮🏾‍♂️🚔🚨');
+    }
+}
+
 module.exports = {
     getEveryUser,
     getOneUser,
     signUp: addUser,
     login,
     deleteUser,
-    editUser
+    editUser,
+    changeAdmin
 }

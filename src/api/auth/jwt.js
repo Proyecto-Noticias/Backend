@@ -6,7 +6,7 @@ const createToken = (user) => {
       id: user._id,
       firstName: user.firstName,
       lastName: user.lastName,
-      idAdmin: user.isAdmin
+      isAdmin: user.isAdmin
   }, process.env.TOKEN_PHRS_KEY || 'secret')
 
   return token;

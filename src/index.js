@@ -2,8 +2,9 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan');
 require("./db");
-const { logErrors, errorHandler } = require('./utils/middlewares/errorHandlers');
-const router = require('./api/routes/routes.js')
+const { logErrors, errorHandler, wrapError } = require('./utils/middlewares/errorHandlers');
+const router = require('./api/routes/routes.js');
+const notFoundHandler = require('./utils/middlewares/notFoundHandler');
 
 //  Server config
 const { config } = require('./config/config');
@@ -13,20 +14,12 @@ app.use(morgan("dev"))
 
 //  routes  
 router(app);
-
+//  Catch 404
+app.use(notFoundHandler);
 
 //  Error handlers
-    //  404
-app.use((req, res, next) => { //eslint-disable-line
-    let error = new Error('Page not found');
-    res.status(404);
-    res.json({
-        error: {
-            Message: error.message
-        }
-    })
-});
 app.use(logErrors);
+app.use(wrapError);
 app.use(errorHandler);
 
 

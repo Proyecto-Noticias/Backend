@@ -7,9 +7,14 @@ router.get('/:token', async (req, res) => {
     const { token } = req.params;
     try {
         const user = await controller.verifyToken(token);
+        const userResponse = {
+            id: user._id,
+            email: user.email,
+            lastName: user.lastName
+        }
         res.status(200).json({
             Message: "Verification success 🍭",
-            user
+            UserData: userResponse
         })
     } catch (error) {
         console.log(error)
