@@ -5,14 +5,21 @@
   "main": "index.js",
   "scripts": {
     "dev": "DEBUG=app:* nodemon src/index.js",
-    "start": "NODE_ENV=production node index.js"
+    "start": "NODE_ENV=production node src/index.js"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@hapi/boom": "^9.1.0",
+    "@hapi/joi": "^17.1.1",
+    "bcrypt": "^5.0.0",
+    "crypto-js": "^4.0.0",
     "dotenv": "^8.2.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mailgun-js": "^0.22.0",
+    "mongoose": "^5.10.9"
   },
   "devDependencies": {
     "eslint": "^7.11.0",
@@ -20,6 +27,7 @@
     "eslint-plugin-prettier": "^3.1.4",
     "husky": "^4.3.0",
     "lint-staged": "^10.4.0",
+    "morgan": "^1.10.0",
     "nodemon": "^2.0.4",
     "prettier": "^2.1.2"
   },
