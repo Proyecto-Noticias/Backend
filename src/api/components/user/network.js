@@ -40,10 +40,13 @@ router.post('/login', async (req, res, next) => {
 
 })
 
-router.delete('/:id', checkAuth, (req, res, next) => {
+router.delete('/:id', checkAuth, async (req, res, next) => {
+    const { userData } = req;
+    const { id } = req.params;
     try {
-        res.send({
-            message: "deleted"
+        await controller.deleteUser(id, userData);
+        res.status(200).json({
+            Message: `User ${userData.firstName} has been deleted successfully`
         })
     } catch (error) {
         next(error)
@@ -51,10 +54,20 @@ router.delete('/:id', checkAuth, (req, res, next) => {
     
 })
 
-router.put('/:id', (req, res) => {
-    res.send({
-        message: "edited"
-    })
+router.patch('/:id', checkAuth, async (req, res, next) => {
+    const { id } = req.params;
+    const { userData } = req;
+    const { firstName, lastName, password, isAdmin, email } = req.body;
+
+    try {
+        const userUpdated = await controller.editUser(id, firstName, lastName, email, password, isAdmin, userData);
+        res.status(200).json({
+            Message: "User updated! 🤗🤗🤗",
+            userUpdated
+        })
+    } catch (error) {
+        next(error);
+    }
 })
 
 

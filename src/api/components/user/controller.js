@@ -69,7 +69,59 @@ const login = async (email, password) => {
     }
 }
 
+const deleteUser = async (id, jwtUser) => {
+    if(id !== jwtUser.id && !jwtUser.isAdmin){
+        let error = new Error('you dont have permissions😔🙏');
+        error.status = 401;
+        throw error;
+    }
+
+    await userStorage.deleteOneUser({_id: id});
+}
+
+const editUser = async (id, name, last, email, password, isAdmin, jwtUser) => {
+
+    if(id !== jwtUser.id && jwtUser.isAdmin === false){
+        let error = new Error('you dont have permissions😔🙏');
+        error.status = 401;
+        throw error;
+    }
+    if(!id) {
+        const err = new Error("User id needed");
+        err.status = 401;
+        throw err;
+    }
+
+    const userSaved = await userStorage.findOneUser({_id: id})
+
+    let userUpdate = {
+        firstName: name || userSaved.firstName,
+        lastName: last || userSaved.lastName,
+        email: email || userSaved.email,
+        password: userSaved.password,
+        isAdmin: isAdmin || userSaved.isAdmin
+    }
+
+    if (password) {
+        const hashedPassword = await new Promise((resolve, reject) => {
+            bcrypt.hash(password, 10, async(err, hashed) => {
+                if(err) {
+                    reject(err);
+                } else {
+                    resolve(hashed);
+                }
+            })
+        })
+        userUpdate.password = hashedPassword
+    }    
+
+    const updated = await userStorage.updateUser({_id:id}, userUpdate);
+    return updated
+}
+
 module.exports = {
     signUp: addUser,
-    login
+    login,
+    deleteUser,
+    editUser
 }
