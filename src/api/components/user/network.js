@@ -22,6 +22,11 @@ router.get('/:id', async (req, res, next) => {
 
     try {
         const user = await controller.getOneUser(id);
+        if(!user){
+            let myError = new Error("That user doesnt exists 😓😓😓😓");
+            myError.status = 400;
+            throw myError;
+        }
         res.status(200).json({
             Message: "Here is your user! 👽👽👽",
             user
