@@ -5,6 +5,18 @@ const emailHandler = require('../../auth/sendEmailVerify');
 const jwt = require('../../auth/jwt');
 
 
+const getEveryUser = async () => {
+    return userStorage.getUserByFilter({});
+}
+
+const getOneUser = async (id) => {
+    if(!id) {
+        let myError = new Error('Id needed! 😔😔😔');
+        myError.status = 400;
+    }
+    return userStorage.getUserById(id);
+}
+
 const addUser = async (firstName, lastName, email, password, host) => {
     if(!firstName || !lastName || !email || !password) {
         const myError = new Error('Missing Data 🐭');
@@ -120,6 +132,8 @@ const editUser = async (id, name, last, email, password, isAdmin, jwtUser) => {
 }
 
 module.exports = {
+    getEveryUser,
+    getOneUser,
     signUp: addUser,
     login,
     deleteUser,

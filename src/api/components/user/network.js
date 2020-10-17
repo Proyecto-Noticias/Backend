@@ -5,14 +5,30 @@ const controller = require('./controller');
 const checkAuth = require('../../../utils/middlewares/check-auth');
 
 
-router.get('/', async (req, res) => {
-    res.send('sup')
+router.get('/', async (req, res, next) => {
+    try {
+        const users = await controller.getEveryUser();
+        res.status(200).json({
+            Message: "Get every user! 👀👀",
+            users
+        });
+    } catch (error) {
+        next(error);
+    }
 })
 
-router.get('/:id', (req, res) => {
-    res.send({
-        message: "user"
-    })
+router.get('/:id', async (req, res, next) => {
+    const { id } = req.params;
+
+    try {
+        const user = await controller.getOneUser(id);
+        res.status(200).json({
+            Message: "Here is your user! 👽👽👽",
+            user
+        })
+    } catch (error) {
+        next(error);
+    }
 })
 
 router.post('/signup', async (req, res, next) => {
