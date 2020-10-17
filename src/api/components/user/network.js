@@ -14,14 +14,13 @@ router.get('/:id', (req, res) => {
     })
 })
 
-router.post('/signup', async (req, res) => {
+router.post('/signup', async (req, res, next) => {
     const { firstName, lastName, email, password } = req.body;
     try {
         await controller.addUser(firstName, lastName, email, password, req.headers.host);
-        res.status(200).json({Messaje: "We've sent you an email with a link confirmation to verify your email address! ✉"})
+        res.status(200).json({Messaje: "We've sent you an email with a link confirmation to verify your email address! 📧🐰"})
     } catch (error) {
-        console.log(error.message)
-        res.status(500).json({Error: `Something wrong happend: ${error.message}`})
+        next(error)
     }
 })
 

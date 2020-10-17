@@ -6,11 +6,15 @@ const emailHandler = require('../../auth/sendEmailVerify');
 
 const addUser = async (firstName, lastName, email, password, host) => {
     if(!firstName || !lastName || !email || !password) {
-        throw new Error('Missing Data');
+        const myError = new Error('Missing Data 🐭');
+        myError.status = 400;
+        throw myError
     }
     const emailExists = await userStorage.getUserByFilter({ email });
     if(emailExists.length >= 1) {
-        throw new Error('Email in use');
+        const myError = new Error('Email already in use 😵');
+        myError.status = 409;
+        throw myError
     } else {
         const hashedPassword = await new Promise((resolve, reject) => {
             bcrypt.hash(password, 10, async(err, hashed) => {
@@ -32,7 +36,9 @@ const addUser = async (firstName, lastName, email, password, host) => {
             const finalToken = await tokenEmail.createToken(newUser._id);
             emailHandler.sendEmail(user.firstName, user.email, finalToken.token, host);
         } catch (error) {
-            throw new Error('Error');
+            const myError = new Error('Error sending email with token');
+            myError.status = 500;
+            throw myError
         }
     }
 }
