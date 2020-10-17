@@ -10,7 +10,10 @@ const notFoundHandler = require('./utils/middlewares/notFoundHandler');
 const { config } = require('./config/config');
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-app.use(morgan("dev"))
+if (config.dev) {
+    app.use(morgan('dev'))
+}
+
 
 //  routes  
 router(app);
