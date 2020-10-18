@@ -1,6 +1,5 @@
 const express = require('express');
 const app = express();
-const morgan = require('morgan');
 require("./db");
 const { logErrors, errorHandler, wrapError } = require('./utils/middlewares/errorHandlers');
 const router = require('./api/routes/routes.js');
@@ -8,10 +7,12 @@ const notFoundHandler = require('./utils/middlewares/notFoundHandler');
 
 //  Server config
 const { config } = require('./config/config');
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 if (config.dev) {
-    app.use(morgan('dev'))
+    const morgan = require('morgan');
+    app.use(morgan('dev'));
 }
 
 
