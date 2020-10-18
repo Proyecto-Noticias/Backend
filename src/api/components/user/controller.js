@@ -11,10 +11,6 @@ const getEveryUser = async () => {
 }
 
 const getOneUser = async (id) => {
-    if(!id) {
-        let myError = new Error('Id needed! 😔😔😔');
-        myError.status = 400;
-    }
     return userStorage.getUserById(id);
 }
 
