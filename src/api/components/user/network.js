@@ -5,6 +5,7 @@ const { userIdSchema, createUserSchema, updateUserSchema, loginSchema } = requir
 const validationHandler = require('../../../utils/middlewares/validationHandler');
 //  const mock = require('../../../mocks/mock_users')
 const checkAuth = require('../../../utils/middlewares/check-auth');
+const boom = require('@hapi/boom');
 
 
 router.get('/', async (req, res, next) => {
@@ -25,9 +26,7 @@ router.get('/:id', validationHandler({ id: userIdSchema }, "params"), async (req
     try {
         const user = await controller.getOneUser(id);
         if(!user){
-            let myError = new Error("That user doesnt exists 😓😓😓😓");
-            myError.status = 400;
-            throw myError;
+            throw boom.notFound("Sorry! but that user looks like doesnt exists 🙏🏾🙏🏾🙏🏾");
         }
         res.status(200).json({
             Message: "Here is your user! 👽👽👽",

@@ -13,14 +13,6 @@ const newSchema = new Schema({
     sentiment: String
 })
 
-//  Change "_id to id"
-newSchema.method('toJSON', function () {
-    // eslint-disable-next-line no-unused-vars
-    const { __v, _id, ...object } = this.toObject();
-    object.id = _id;
-    return object;
-})
-
 const newModel = mongoose.model('New', newSchema)
 
 module.exports = newModel;
