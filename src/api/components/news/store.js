@@ -1,7 +1,7 @@
 const Model = require("../../../db/models/new");
 
-const getAllNews = async () => {
-    const news = await Model.find({});
+const getAllNews = async (page) => {
+    const news = await Model.paginate({}, {page, limit:50});
     return news;
 }
 

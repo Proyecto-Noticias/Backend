@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const mongoosePaginate = require('mongoose-paginate-v2');
+
 const Schema = mongoose.Schema;
 
 const newSchema = new Schema({
@@ -13,6 +15,7 @@ const newSchema = new Schema({
     sentiment: String
 })
 
-const newModel = mongoose.model('New', newSchema)
+newSchema.plugin(mongoosePaginate);
+const newModel = mongoose.model('New', newSchema);
 
 module.exports = newModel;

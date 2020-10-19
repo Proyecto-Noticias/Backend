@@ -10,8 +10,9 @@ const {
 
 
 router.get('/', async (req, res, next) => {
+    const page = req.query.page || 1;
     try {
-        const news = await controller.getAllNews();
+        const news = await controller.getAllNews(page);
         res.status(200).json({
             Message: "Here are the news! 📰",
             news

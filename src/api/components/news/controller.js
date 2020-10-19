@@ -1,8 +1,8 @@
 const newStore = require("./store");
 const boom = require('@hapi/boom');
 
-const getAllNews = async () => {
-    const news = await newStore.getAllNews();
+const getAllNews = async (page) => {
+    const news = await newStore.getAllNews(page);
     return news;
 }
 
