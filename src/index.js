@@ -1,5 +1,7 @@
 const express = require('express');
 const app = express();
+var cors = require('cors');
+const helmet = require("helmet");
 require("./db");
 const { logErrors, errorHandler, wrapError } = require('./utils/middlewares/errorHandlers');
 const router = require('./api/routes/routes.js');
@@ -9,6 +11,12 @@ const notFoundHandler = require('./utils/middlewares/notFoundHandler');
 const { config } = require('./config/config');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+//  Middlewares
+app.use(cors());
+app.use(helmet());
+
+
 
 if (config.dev) {
     const morgan = require('morgan');
