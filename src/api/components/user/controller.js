@@ -69,7 +69,7 @@ const login = async (email, password) => {
             }
             return finalResponse;
         } else {
-            throw boom.unauthorized();
+            throw boom.unauthorized("Email or password wrong");
         }
     } else {
         throw boom.unauthorized('You must verify your account first! 🚦');
