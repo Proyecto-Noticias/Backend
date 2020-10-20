@@ -23,11 +23,11 @@ router.get('/', async (req, res, next) => {
 })
 
 router.post('/', validationHandler(createNewsPapper), checkAuth, async (req, res, next) => {
-    const { title, subtitle, articleDate, imageUrl, category, body, journal, scrappingDate, sentiment } = req.body;
+    const { title, subtitle, articleDate, imageUrl, category, body,articleUrl, journal, scrappingDate, sentiment } = req.body;
     const { userData } = req;
 
     try {
-        const newAdded = await controller.addNew(title, subtitle, articleDate, imageUrl, category, body, journal, scrappingDate, sentiment, userData);
+        const newAdded = await controller.addNew(title, subtitle, articleDate, imageUrl, category, body, articleUrl, journal, scrappingDate, sentiment, userData);
         res.status(200).json({
             Message: "we nurture the world of knowledge! 🧠🧠🧠🧠",
             newAdded
@@ -51,5 +51,17 @@ router.delete('/:id', validationHandler({id: nppIdSchema}, "params"), checkAuth,
     }
 })
 
+
+router.post('/specialroute', checkAuth, async (req, res, next) => {
+    const { userData } = req;
+    try {
+        await controller.specialRoute(userData);
+        res.status(200).json({
+            Message: "Everything success. I hope..."
+        })
+    } catch (error) {
+        next(error);
+    }
+})
 
 module.exports = router;

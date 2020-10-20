@@ -6,10 +6,14 @@ const Schema = mongoose.Schema;
 const newSchema = new Schema({
     title: String,
     subTitle: String,
-    articleDate: Date,
+    articleDate: String,
     imageUrl: String,
     category: String, 
     body: String,
+    articleUrl: {
+        type: String,
+        unique: true
+    },
     journal: String,
     scrappingDate: Date,
     sentiment: String
