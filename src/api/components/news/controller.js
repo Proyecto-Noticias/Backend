@@ -37,8 +37,7 @@ const deleteNew = async (id, userData) => {
     }
 }
 
-const specialRoute = async (userData) => {
-    if (!userData.isAdmin) throw boom.unauthorized("You cant do that!!");
+const specialRoute = async () => {
     let parsedNews = [];
     try {
         const response = await Axios.get(URL_SCRAPPER);

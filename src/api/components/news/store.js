@@ -22,7 +22,7 @@ const multipleInserts = async (news) => {
             const code = err.message.split(" ")[0];
             if(code !== "E11000") console.error(err.message);
         } else {
-            console.log("Everything success! 🥰🥰🥰");
+            console.log("Everything new add success! 🥰🥰🥰");
         }
     })
 }

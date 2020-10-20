@@ -52,10 +52,9 @@ router.delete('/:id', validationHandler({id: nppIdSchema}, "params"), checkAuth,
 })
 
 
-router.post('/specialroute', checkAuth, async (req, res, next) => {
-    const { userData } = req;
+router.post('/specialroute', async (req, res, next) => {
     try {
-        await controller.specialRoute(userData);
+        await controller.specialRoute();
         res.status(200).json({
             Message: "Everything success. I hope..."
         })
