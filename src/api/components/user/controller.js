@@ -64,6 +64,7 @@ const login = async (email, password) => {
             const finalResponse = {
                 id: user._id,
                 name: user.firstName,
+                isAdmin: user.isAdmin,
                 token: authToken
             }
             return finalResponse;
