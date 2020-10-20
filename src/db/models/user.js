@@ -8,6 +8,7 @@ const userSchema = new Schema({
         type: String,
         match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
     },
+    country: String,
     password: String,
     isVerified: {
         type: Boolean,

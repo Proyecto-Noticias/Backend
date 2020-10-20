@@ -38,9 +38,9 @@ router.get('/:id', validationHandler({ id: userIdSchema }, "params"), async (req
 })
 
 router.post('/signup', validationHandler(createUserSchema), async (req, res, next) => {
-    const { firstName, lastName, email, password } = req.body;
+    const { firstName, lastName, country, email, password } = req.body;
     try {
-        await controller.signUp(firstName, lastName, email, password, req.headers.host);
+        await controller.signUp(firstName, lastName, country, email, password, req.headers.host);
         res.status(200).json({Messaje: "We've sent you an email with a link confirmation to verify your email address! 📧🐰"})
     } catch (error) {
         next(error)

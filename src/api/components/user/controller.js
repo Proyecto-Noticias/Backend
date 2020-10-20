@@ -14,8 +14,8 @@ const getOneUser = async (id) => {
     return userStorage.getUserById(id);
 }
 
-const addUser = async (firstName, lastName, email, password, host) => {
-    if(!firstName || !lastName || !email || !password) {
+const addUser = async (firstName, lastName, country, email, password, host) => {
+    if(!firstName || !lastName || !email || !password || !country) {
         throw boom.badData('Missing data 🐭');
     }
     const emailExists = await userStorage.getUserByFilter({ email });
@@ -33,7 +33,8 @@ const addUser = async (firstName, lastName, email, password, host) => {
         })
         const user = {
             firstName,
-            lastName, 
+            lastName,
+            country,
             email,
             password: hashedPassword
         }
