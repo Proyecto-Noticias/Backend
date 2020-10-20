@@ -41,7 +41,7 @@ router.post('/signup', validationHandler(createUserSchema), async (req, res, nex
     const { firstName, lastName, country, email, password } = req.body;
     try {
         await controller.signUp(firstName, lastName, country, email, password, req.headers.host);
-        res.status(200).json({Messaje: "We've sent you an email with a link confirmation to verify your email address! 📧🐰"})
+        res.status(200).json({message: "We've sent you an email with a link confirmation to verify your email address! 📧🐰"})
     } catch (error) {
         next(error)
     }
