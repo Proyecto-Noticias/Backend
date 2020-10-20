@@ -61,7 +61,12 @@ const login = async (email, password) => {
 
         if (result) {
             const authToken = jwt.createToken(user);
-            return authToken;
+            const finalResponse = {
+                id: user._id,
+                name: user.firstName,
+                token: authToken
+            }
+            return finalResponse;
         } else {
             throw boom.unauthorized();
         }

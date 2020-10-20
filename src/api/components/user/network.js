@@ -51,10 +51,10 @@ router.post('/login', validationHandler(loginSchema), async (req, res, next) => 
    const { email, password } = req.body;
 
    try {
-       const token = await controller.login(email, password);
+       const data = await controller.login(email, password);
        res.status(200).json({
            Message: "Login success! 🎉🎉",
-           token
+           data
        })
    } catch (error) {
        next(error)    
