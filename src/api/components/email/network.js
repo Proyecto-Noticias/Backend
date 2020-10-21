@@ -6,16 +6,9 @@ const controller = require('./controller');
 router.get('/:token', async (req, res) => {
     const { token } = req.params;
     try {
-        const user = await controller.verifyToken(token);
-        const userResponse = {
-            id: user._id,
-            email: user.email,
-            lastName: user.lastName
-        }
-        res.status(200).json({
-            Message: "Verification success 🍭",
-            UserData: userResponse
-        })
+        await controller.verifyToken(token);
+
+        res.status(200).redirect("https://easynews.vercel.app/confirmation");
     } catch (error) {
         console.log(error)
         const finalMessage = error.message; 
