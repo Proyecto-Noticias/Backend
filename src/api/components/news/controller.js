@@ -46,7 +46,7 @@ const deleteNew = async (id, userData) => {
 const specialRoute = async () => {
     let parsedNews = [];
     try {
-        const response = await Axios.get(URL_SCRAPPER);
+        const response = await Axios.get(URL_SCRAPPER + "articles-joined/");
         const myArray = response.data;
         myArray.forEach(element => {
             const myNew = {
@@ -63,9 +63,7 @@ const specialRoute = async () => {
             }
             parsedNews.push(myNew);
         });
-
         await newStore.multipleInserts(parsedNews);
-       
     } catch (error) {
         if (error) throw error
     }    

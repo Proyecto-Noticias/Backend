@@ -11,6 +11,20 @@ const addCatStat = async (filter) => {
     return await Model.find(filter);
 }
 
+const updateCats = async (cats) => {
+    try {
+        const docs = await Model.insertMany(cats, { ordered:false })
+        return docs;
+    } catch (error) {
+        const code = error.message.split(" ")[0];
+        if(code !== "E11000") {
+            throw error
+        } else {
+            //  console.log(error.message);
+        }
+    }
+}
+
 const saveCategory = async (cat) => {
     try {
         const newCat = new Model(cat);
@@ -34,5 +48,6 @@ module.exports = {
     saveCategory,
     addCatStat,
     updateStat,
-    getCatStats
+    getCatStats,
+    updateCats
 }

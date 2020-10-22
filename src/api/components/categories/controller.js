@@ -1,5 +1,18 @@
 const store = require('./store');
 const boom = require('@hapi/boom');
+const Axios = require('axios');
+const { URL_SCRAPPER } = process.env;
+
+
+const updateCats = async () => {
+    const response = await Axios.get(URL_SCRAPPER + "categories/");
+    const array = response.data;
+    let final = array.map(el => {
+        return {category: el.name}
+    });
+    const data = await store.updateCats(final);
+    return data;
+}
 
 const addCatConsumed = async (category) => {
     let filter = {
@@ -15,7 +28,6 @@ const addCatConsumed = async (category) => {
     } catch (error) {
         return error
     }
-    
 }
 
 const addCategory = async (category, userAuth) => {
@@ -26,7 +38,6 @@ const addCategory = async (category, userAuth) => {
     }
     const catAdded = await store.saveCategory(newCategory);
     return catAdded;
-
 }
 
 const getCatStats = async () => {
@@ -37,5 +48,6 @@ const getCatStats = async () => {
 module.exports = {
     addCatConsumed,
     addCategory,
-    getCatStats
+    getCatStats,
+    updateCats
 }

@@ -46,4 +46,16 @@ router.post('/add', validationHandler(addCategory), checkAuth, async (req, res, 
     }
 });
 
+router.post('/update', async(req, res, next) => {
+    try {
+        const data = await controller.updateCats(); 
+        res.status(200).json({
+            Message: "Everything success 😊😊",
+            data
+        });
+    } catch (error) {
+        next(error);
+    }
+})
+
 module.exports = router;
