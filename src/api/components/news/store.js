@@ -6,7 +6,7 @@ const getOneById = async (id) => {
 }
 
 const getAllNews = async (page) => {
-    const news = await Model.paginate({}, {page, limit:50});
+    const news = await Model.paginate({}, {page, limit:20});
     return news;
 }
 
