@@ -1,4 +1,5 @@
 const Model = require("../../../db/models/new");
+const boom = require('@hapi/boom');
 
 const getOneById = async (id) => {
     const mNew = await Model.findOne({_id: id});
@@ -32,10 +33,21 @@ const multipleInserts = async (news) => {
     })
 }
 
+const findByFilter = async (filter) => {
+    try {
+        const docs = await Model.find(filter);
+        return docs;
+    } catch (error) {
+        throw boom.badData(`${error.message}`);
+    }
+    
+}
+
 module.exports = {
     getAllNews,
     createNews,
     deleteNew,
     multipleInserts,
-    getOneById
+    getOneById,
+    findByFilter
 };
