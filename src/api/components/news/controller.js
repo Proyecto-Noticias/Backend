@@ -9,6 +9,12 @@ const getAllNews = async (page) => {
     return news;
 }
 
+const getOneNew = async (id) => {
+    const mNew = await newStore.getOneById(id);
+    if (!mNew) throw boom.badRequest('That new doesnt exists! 👽');
+    return mNew;
+}
+
 const addNew = async (title, subtitle, articleDate, imageUrl, category, body, articleUrl, journal, scrappingDate, sentiment, userData) => {
     if (!userData.isAdmin) throw boom.unauthorized("Sorry! but only admins can create news 😞😔😔😔😞");
     const newspaperArticle = {
@@ -69,5 +75,6 @@ module.exports = {
     getAllNews,
     addNew,
     deleteNew,
-    specialRoute
+    specialRoute,
+    getOneNew
 }

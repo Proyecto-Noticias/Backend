@@ -8,6 +8,18 @@ const {
     createNewsPapper 
 } = require('../../../utils/validation/newsSchema');
 
+router.get('/:id', async (req, res, next) => {
+    const { id } = req.params;
+    try {
+        const mNew = await controller.getOneNew(id);
+        res.status(200).json({
+            Message: "Have fun! and stay informed! 😁😁",
+            yourNew: mNew
+        });
+    } catch (error) {
+        next(error);
+    }
+})
 
 router.get('/', async (req, res, next) => {
     const page = req.query.page || 1;

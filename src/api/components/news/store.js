@@ -1,5 +1,10 @@
 const Model = require("../../../db/models/new");
 
+const getOneById = async (id) => {
+    const mNew = await Model.findOne({_id: id});
+    return mNew;
+}
+
 const getAllNews = async (page) => {
     const news = await Model.paginate({}, {page, limit:50});
     return news;
@@ -31,5 +36,6 @@ module.exports = {
     getAllNews,
     createNews,
     deleteNew,
-    multipleInserts
+    multipleInserts,
+    getOneById
 };
