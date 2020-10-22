@@ -17,6 +17,9 @@ const newSchema = new Schema({
         default: Date.now, 
         expires: 43200 
     }
+},{
+    versionKey: false,
+    timestamps: true
 });
 
 

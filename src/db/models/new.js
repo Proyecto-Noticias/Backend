@@ -17,6 +17,9 @@ const newSchema = new Schema({
     journal: String,
     scrappingDate: Date,
     sentiment: String
+},{
+    versionKey: false,
+    timestamps: true
 })
 
 newSchema.plugin(mongoosePaginate);

@@ -56,7 +56,7 @@ router.post('/specialroute', async (req, res, next) => {
     try {
         await controller.specialRoute();
         res.status(200).json({
-            Message: "Everything success. I hope..."
+            Message: "Every new added success! 🥰🥰🥰"
         })
     } catch (error) {
         next(error);
