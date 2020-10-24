@@ -9,7 +9,7 @@ function withErrorStack(err, stack){
 }
 
 function logErrors (err, req, res, next) {
-    console.log(err);
+    console.error(err.message);
     next(err);
 }
 

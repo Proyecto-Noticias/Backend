@@ -35,7 +35,10 @@ app.use(wrapError);
 app.use(errorHandler);
 
 
+if(!module.parent){
+    app.listen(config.port, () => {
+        console.log(`Listening http://localhost:${config.port}`);
+    });
+}
 
-app.listen(config.port, () => {
-    console.log(`Listening http://localhost:${config.port}`);
-});
+module.exports = app;

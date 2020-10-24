@@ -38,10 +38,10 @@ router.get('/:id', validationHandler({ id: userIdSchema }, "params"), async (req
 })
 
 router.post('/signup', validationHandler(createUserSchema), async (req, res, next) => {
-    const { firstName, lastName, country, email, password } = req.body;
+    const { _id, firstName, lastName, country, email, password, isVerified } = req.body;
     try {
-        await controller.signUp(firstName, lastName, country, email, password, req.headers.host);
-        res.status(200).json({message: "We've sent you an email with a link confirmation to verify your email address! 📧🐰"})
+        await controller.signUp(_id, firstName, lastName, country, email, password, req.headers.host, isVerified);
+        res.status(201).json({message: "We've sent you an email with a link confirmation to verify your email address! 📧🐰"})
     } catch (error) {
         next(error)
     }
@@ -49,7 +49,6 @@ router.post('/signup', validationHandler(createUserSchema), async (req, res, nex
 
 router.post('/login', validationHandler(loginSchema), async (req, res, next) => {
    const { email, password } = req.body;
-
    try {
        const data = await controller.login(email, password);
        res.status(200).json({
@@ -62,13 +61,13 @@ router.post('/login', validationHandler(loginSchema), async (req, res, next) => 
 
 })
 
-router.delete('/:id', validationHandler({ id: userIdSchema }, "params"), checkAuth, async (req, res, next) => {
+router.delete('/:id', validationHandler({ id: userIdSchema.required() }, "params"), checkAuth, async (req, res, next) => {
     const { userData } = req;
     const { id } = req.params;
     try {
         await controller.deleteUser(id, userData);
         res.status(200).json({
-            Message: `User ${userData.firstName} has been deleted successfully`
+            Message: `User has been deleted successfully`
         })
     } catch (error) {
         next(error)
@@ -76,7 +75,7 @@ router.delete('/:id', validationHandler({ id: userIdSchema }, "params"), checkAu
     
 })
 
-router.patch('/:id', validationHandler({ id: userIdSchema }, "params"), validationHandler(updateUserSchema), checkAuth, async (req, res, next) => {
+router.patch('/:id', validationHandler({ id: userIdSchema.required() }, "params"), validationHandler(updateUserSchema), checkAuth, async (req, res, next) => {
     const { id } = req.params;
     const { userData } = req;
     const { firstName, lastName, password, isAdmin, email } = req.body;
@@ -85,7 +84,7 @@ router.patch('/:id', validationHandler({ id: userIdSchema }, "params"), validati
         const userUpdated = await controller.editUser(id, firstName, lastName, email, password, isAdmin, userData);
         res.status(200).json({
             Message: "User updated! 🤗🤗🤗",
-            userUpdated
+            user: userUpdated
         })
     } catch (error) {
         next(error);
