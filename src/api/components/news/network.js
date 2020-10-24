@@ -22,12 +22,13 @@ router.get('/:id', async (req, res, next) => {
 })
 
 router.get('/category/:category', async (req, res, next) => {
+    const page = req.query.page || 1;
     const { category } = req.params;
     try {
-        const newsByCategory = await controller.getNewsByCategory(category);
+        const news = await controller.getNewsByCategory(category, page);
         res.status(200).json({
             Message: `${category} news!!! 🎉🎈😁😁`,
-            news: newsByCategory
+            news
         })
     } catch (error) {
         next(error);

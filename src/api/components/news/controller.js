@@ -69,11 +69,11 @@ const specialRoute = async () => {
     }    
 }
 
-const getNewsByCategory = async (category) => {
+const getNewsByCategory = async (category, page) => {
     let filter = {
         category
     }
-    return await newStore.findByFilter(filter);
+    return await newStore.findByFilter(filter, page);
 }
 
 module.exports = {

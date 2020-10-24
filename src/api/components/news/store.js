@@ -33,9 +33,9 @@ const multipleInserts = async (news) => {
     })
 }
 
-const findByFilter = async (filter) => {
+const findByFilter = async (filter, page) => {
     try {
-        const docs = await Model.find(filter);
+        const docs = await Model.paginate(filter, {page, limit: 20});
         return docs;
     } catch (error) {
         throw boom.badData(`${error.message}`);
