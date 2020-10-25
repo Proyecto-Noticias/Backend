@@ -76,11 +76,22 @@ const getNewsByCategory = async (category, page) => {
     return await newStore.findByFilter(filter, page);
 }
 
+const makeSearch = async (qry) => {
+    const docs = await newStore.searchNews(qry);
+    console.log(docs);
+    if(docs.length === 0) {
+        throw boom.badRequest('News not found 😔');
+    } else {
+        return docs
+    }
+}
+
 module.exports = {
     getAllNews,
     addNew,
     deleteNew,
     specialRoute,
     getOneNew,
-    getNewsByCategory
+    getNewsByCategory,
+    makeSearch
 }

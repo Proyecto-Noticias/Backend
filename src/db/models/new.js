@@ -22,6 +22,14 @@ const newSchema = new Schema({
     timestamps: true
 })
 
+newSchema.index({title: 'text', subTitle: 'text', body: 'text'},{
+    name: 'Title and Sub title index',
+    weights: {
+        title: 10,
+        subTitle: 5
+    }
+});
+
 newSchema.plugin(mongoosePaginate);
 const newModel = mongoose.model('New', newSchema);
 

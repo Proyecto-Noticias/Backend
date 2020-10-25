@@ -1,13 +1,17 @@
 const Model = require("../../../db/models/new");
 const boom = require('@hapi/boom');
 
+const escapeRegex = (text) => {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+}
+
 const getOneById = async (id) => {
-    const mNew = await Model.findOne({_id: id});
+    const mNew = await Model.findOne({ _id: id });
     return mNew;
 }
 
 const getAllNews = async (page) => {
-    const news = await Model.paginate({}, {page, limit:20});
+    const news = await Model.paginate({}, { page, limit: 20 });
     return news;
 }
 
@@ -17,16 +21,16 @@ const createNews = async (newToAdd) => {
 }
 
 const deleteNew = async (id) => {
-    const removed = await Model.findByIdAndDelete({_id:id});
+    const removed = await Model.findByIdAndDelete({ _id: id });
     return removed;
 }
 
 const multipleInserts = async (news) => {
     // eslint-disable-next-line no-unused-vars
-    Model.insertMany(news, { ordered: false }, (err, docs) =>{
+    Model.insertMany(news, { ordered: false }, (err, docs) => {
         if (err) {
             const code = err.message.split(" ")[0];
-            if(code !== "E11000") console.error(err.message);
+            if (code !== "E11000") console.error(err.message);
         } else {
             console.log("Every new added success! 🥰🥰🥰");
         }
@@ -35,12 +39,25 @@ const multipleInserts = async (news) => {
 
 const findByFilter = async (filter, page) => {
     try {
-        const docs = await Model.paginate(filter, {page, limit: 20});
+        const docs = await Model.paginate(filter, { page, limit: 20 });
         return docs;
     } catch (error) {
         throw boom.badData(`${error.message}`);
     }
-    
+
+}
+
+const searchNews = async (searchString) => {
+    let regex = new RegExp(escapeRegex(searchString), 'gi');
+    let docs = await Model.find({
+        $or: [
+            { 'title': regex },
+            { 'subTitle': regex },
+            { 'body': regex }
+        ]
+    })
+
+    return docs
 }
 
 module.exports = {
@@ -49,5 +66,6 @@ module.exports = {
     deleteNew,
     multipleInserts,
     getOneById,
-    findByFilter
+    findByFilter,
+    searchNews
 };

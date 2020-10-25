@@ -48,6 +48,19 @@ router.get('/', async (req, res, next) => {
     }
 })
 
+router.get('/search/all/', async (req, res, next) => {
+    
+    try {
+        const docs = await controller.makeSearch(req.query.search)
+        res.status(200).json({
+            Message: `News that contains: '${req.query.search}' 🧨✨`,
+            docs
+        })
+    } catch (error) {
+        next(error);
+    }
+})
+
 router.post('/', validationHandler(createNewsPapper), checkAuth, async (req, res, next) => {
     const { title, subtitle, articleDate, imageUrl, category, body,articleUrl, journal, scrappingDate, sentiment } = req.body;
     const { userData } = req;
@@ -76,7 +89,6 @@ router.delete('/:id', validationHandler({id: nppIdSchema}, "params"), checkAuth,
         next(error);
     }
 })
-
 
 router.post('/specialroute', async (req, res, next) => {
     try {
