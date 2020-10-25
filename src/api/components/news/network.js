@@ -49,12 +49,12 @@ router.get('/', async (req, res, next) => {
 })
 
 router.get('/search/all/', async (req, res, next) => {
-    
+    const page = req.query.page || 1;
     try {
-        const docs = await controller.makeSearch(req.query.search)
+        const docs = await controller.makeSearch(req.query.search, page)
         res.status(200).json({
             Message: `News that contains: '${req.query.search}' 🧨✨`,
-            docs
+            ...docs
         })
     } catch (error) {
         next(error);

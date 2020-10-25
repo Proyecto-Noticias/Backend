@@ -76,8 +76,8 @@ const getNewsByCategory = async (category, page) => {
     return await newStore.findByFilter(filter, page);
 }
 
-const makeSearch = async (qry) => {
-    const docs = await newStore.searchNews(qry);
+const makeSearch = async (qry, page) => {
+    const docs = await newStore.searchNews(qry, page);
     if(docs.length === 0) {
         throw boom.badRequest('News not found 😔');
     } else {

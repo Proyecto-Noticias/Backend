@@ -47,15 +47,15 @@ const findByFilter = async (filter, page) => {
 
 }
 
-const searchNews = async (searchString) => {
+const searchNews = async (searchString, page) => {
     let regex = new RegExp(escapeRegex(searchString), 'gi');
-    let docs = await Model.find({
+    let docs = await Model.paginate({
         $or: [
             { 'title': regex },
             { 'subTitle': regex },
             { 'body': regex }
         ]
-    })
+    },{ page, limit: 20 })
 
     return docs
 }
