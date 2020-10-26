@@ -45,10 +45,19 @@ const deleteNew = async (id, userData) => {
 
 const specialRoute = async () => {
     let parsedNews = [];
-    let date = new Date().toLocaleDateString("en-US", {timeZone: 'America/Mexico_city'});
-    let [month, day, year] = date.split('/')
+    const mx = new Date(new Date().getTime() - 2 * 60 * 60 * 1000).toLocalDateString("en-US", {
+        timeZone: 'America/Mexico_city'
+    })
+    let [month, day, year] = mx.split('/')
+
+
+    //let date = new Date().toLocaleDateString("en-US", {timeZone: 'America/Mexico_city'});
+    //let [month, day, year] = date.split('/')
+
+
     const finalUrl = URL_SCRAPPER + "articles-joined/" + `${year}-${month}-${day}`;
-    console.log(finalUrl)    
+    console.log(finalUrl)
+    
 
 
     try {

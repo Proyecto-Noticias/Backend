@@ -19,7 +19,6 @@ const newSchema = new Schema({
     sentiment: String
 },{
     versionKey: false,
-    timestamps: true
 })
 
 newSchema.index({title: 'text', subTitle: 'text'},{
