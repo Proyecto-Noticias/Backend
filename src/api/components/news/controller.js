@@ -45,7 +45,7 @@ const deleteNew = async (id, userData) => {
 
 const specialRoute = async () => {
     let parsedNews = [];
-    const mx = new Date(new Date().getTime() - 2 * 60 * 60 * 1000).toLocalDateString("en-US", {
+    const mx = new Date(new Date().getTime() - 2 * 60 * 60 * 1000).toLocaleDateString("en-US", {
         timeZone: 'America/Mexico_city'
     })
     let [month, day, year] = mx.split('/')
