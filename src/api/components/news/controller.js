@@ -11,12 +11,12 @@ const getAllNews = async (page) => {
 
 const getOneNew = async (id) => {
     const mNew = await newStore.getOneById(id);
-    if (!mNew) throw boom.badRequest('That new doesnt exists! 👽');
+    if (!mNew) throw boom.badRequest('That new doesnt exists!');
     return mNew;
 }
 
 const addNew = async (title, subtitle, articleDate, imageUrl, category, body, articleUrl, journal, scrappingDate, sentiment, userData) => {
-    if (!userData.isAdmin) throw boom.unauthorized("Sorry! but only admins can create news 😞😔😔😔😞");
+    if (!userData.isAdmin) throw boom.unauthorized("Sorry! but only admins can create news");
     const newspaperArticle = {
         title,
         subtitle,
@@ -45,20 +45,10 @@ const deleteNew = async (id, userData) => {
 
 const specialRoute = async () => {
     let parsedNews = [];
-    const mx = new Date(new Date().getTime() - 2 * 60 * 60 * 1000).toLocaleDateString("en-US", {
-        timeZone: 'America/Mexico_city'
-    })
-    let [month, day, year] = mx.split('/')
-
-
-    //let date = new Date().toLocaleDateString("en-US", {timeZone: 'America/Mexico_city'});
-    //let [month, day, year] = date.split('/')
-
-
+    let date = new Date().toLocaleDateString("en-US", {timeZone: 'America/Mexico_city'});
+    let [month, day, year] = date.split('/')
     const finalUrl = URL_SCRAPPER + "articles-joined/" + `${year}-${month}-${day}`;
     console.log(finalUrl)
-    
-
 
     try {
         const response = await Axios.get(finalUrl);
@@ -94,7 +84,7 @@ const getNewsByCategory = async (category, page) => {
 const makeSearch = async (qry, page) => {
     const docs = await newStore.searchNews(qry, page);
     if(docs.length === 0) {
-        throw boom.badRequest('News not found 😔');
+        throw boom.badRequest('News not found');
     } else {
         return docs
     }

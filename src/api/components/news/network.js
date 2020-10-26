@@ -13,7 +13,7 @@ router.get('/:id', async (req, res, next) => {
     try {
         const mNew = await controller.getOneNew(id);
         res.status(200).json({
-            Message: "Have fun! and stay informed! 😁😁",
+            Message: "Have fun! and stay informed!",
             yourNew: mNew
         });
     } catch (error) {
@@ -27,7 +27,7 @@ router.get('/category/:category', async (req, res, next) => {
     try {
         const news = await controller.getNewsByCategory(category, page);
         res.status(200).json({
-            Message: `${category} news!!! 🎉🎈😁😁`,
+            Message: `${category} news!!!`,
             news
         })
     } catch (error) {
@@ -53,7 +53,7 @@ router.get('/search/all/', async (req, res, next) => {
     try {
         const docs = await controller.makeSearch(req.query.search, page)
         res.status(200).json({
-            Message: `News that contains: '${req.query.search}' 🧨✨`,
+            Message: `News that contains: '${req.query.search}'`,
             ...docs
         })
     } catch (error) {
@@ -68,7 +68,7 @@ router.post('/', validationHandler(createNewsPapper), checkAuth, async (req, res
     try {
         const newAdded = await controller.addNew(title, subtitle, articleDate, imageUrl, category, body, articleUrl, journal, scrappingDate, sentiment, userData);
         res.status(200).json({
-            Message: "we nurture the world of knowledge! 🧠🧠🧠🧠",
+            Message: "we nurture the world of knowledge!",
             newAdded
         })
     } catch (error) {
@@ -94,7 +94,7 @@ router.post('/specialroute', async (req, res, next) => {
     try {
         await controller.specialRoute();
         res.status(200).json({
-            Message: "Every new added success! 🥰🥰🥰"
+            Message: "Every new added success!"
         })
     } catch (error) {
         next(error);

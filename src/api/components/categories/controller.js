@@ -23,7 +23,7 @@ const addCatConsumed = async (category) => {
         catStat[0].times++;
         const updated = await store.updateStat({_id: catStat[0]._id}, catStat[0]);
         if(!updated) {
-            throw boom.badData("Not Updated 🤔🤔🤔");
+            throw boom.badData("Not Updated");
         }
     } catch (error) {
         return error
@@ -31,7 +31,7 @@ const addCatConsumed = async (category) => {
 }
 
 const addCategory = async (category, userAuth) => {
-    if(!userAuth.isAdmin) throw boom.unauthorized("Must be an admin to add a new category! 😢😢😢");
+    if(!userAuth.isAdmin) throw boom.unauthorized("Must be an admin to add a new category!");
 
     const newCategory = {
         category

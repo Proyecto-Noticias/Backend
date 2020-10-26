@@ -16,7 +16,7 @@ const getOneUser = async (id) => {
 
 const addUser = async (_id, firstName, lastName, country, email, password, host, isVerified) => {
     if (!firstName || !lastName || !email || !password || !country) {
-        throw boom.badData('Missing data 🐭');
+        throw boom.badData('Missing data');
     }
     const emailExists = await userStorage.getUserByFilter({ email });
     if (emailExists.length >= 1) {
@@ -53,11 +53,11 @@ const addUser = async (_id, firstName, lastName, country, email, password, host,
 
 const login = async (email, password) => {
     if (!email || !password) {
-        throw boom.badRequest('Email & password needed 🔑🔑');
+        throw boom.badRequest('Email & password needed');
     }
     const user = await userStorage.findOneUser({ email });
     if (!user) {
-        throw boom.notFound("that user doesnt exists! 🎆🎆🎆");
+        throw boom.notFound("that user doesnt exists!");
     }
     if (user.isVerified) {
         const result = await bcrypt.compare(password, user.password);
@@ -72,10 +72,10 @@ const login = async (email, password) => {
             }
             return finalResponse;
         } else {
-            throw boom.unauthorized("Email or password wrong 😢");
+            throw boom.unauthorized("Email or password wrong");
         }
     } else {
-        throw boom.unauthorized('You must verify your account first! 🚦');
+        throw boom.unauthorized('You must verify your account first.');
     }
 }
 
@@ -90,10 +90,10 @@ const deleteUser = async (id, jwtUser) => {
 const editUser = async (id, name, last, email, password, isAdmin, jwtUser) => {
 
     if (id !== jwtUser.id && !jwtUser.isAdmin) {
-        throw boom.unauthorized('you dont have permissions to do that action 😔🙏');
+        throw boom.unauthorized('you dont have permissions to do that action');
     }
     if (!id) {
-        throw boom.badRequest('Id is needed! 😠😠');
+        throw boom.badRequest('Id is needed!');
     }
 
     const userSaved = await userStorage.findOneUser({ _id: id })
@@ -129,7 +129,7 @@ const changeAdmin = async (id, role, authUser) => {
         user.isAdmin = role;
         return await userStorage.saveUser(user);
     } else {
-        throw boom.unauthorized('You dont have permissions to exec that action!!! 🏃🏾‍♀️🏃🏾‍♂️👮🏾‍♂️🚔🚨');
+        throw boom.unauthorized('You dont have permissions to exec that action!');
     }
 }
 

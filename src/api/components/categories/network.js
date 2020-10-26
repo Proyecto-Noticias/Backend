@@ -50,7 +50,7 @@ router.post('/update', async(req, res, next) => {
     try {
         const data = await controller.updateCats(); 
         res.status(200).json({
-            Message: "Everything success 😊😊",
+            Message: "Everything success",
             data
         });
     } catch (error) {

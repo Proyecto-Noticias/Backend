@@ -12,7 +12,7 @@ router.get('/', async (req, res, next) => {
     try {
         const users = await controller.getEveryUser();
         res.status(200).json({
-            Message: "Get every user! 👀👀",
+            Message: "Get every user!",
             users
         });
     } catch (error) {
@@ -29,7 +29,7 @@ router.get('/:id', validationHandler({ id: userIdSchema }, "params"), async (req
             throw boom.notFound("Sorry! but that user looks like doesnt exists 🙏🏾🙏🏾🙏🏾");
         }
         res.status(200).json({
-            Message: "Here is your user! 👽👽👽",
+            Message: "Here is your user!",
             user
         })
     } catch (error) {
@@ -41,7 +41,7 @@ router.post('/signup', validationHandler(createUserSchema), async (req, res, nex
     const { _id, firstName, lastName, country, email, password, isVerified } = req.body;
     try {
         await controller.signUp(_id, firstName, lastName, country, email, password, req.headers.host, isVerified);
-        res.status(201).json({message: "We've sent you an email with a link confirmation to verify your email address! 📧🐰"})
+        res.status(201).json({message: "We've sent you an email with a link confirmation to verify your email address! 📧"})
     } catch (error) {
         next(error)
     }
@@ -52,7 +52,7 @@ router.post('/login', validationHandler(loginSchema), async (req, res, next) => 
    try {
        const data = await controller.login(email, password);
        res.status(200).json({
-           Message: "Login success! 🎉🎉",
+           Message: "Login success!",
            data
        })
    } catch (error) {
@@ -83,7 +83,7 @@ router.patch('/:id', validationHandler({ id: userIdSchema.required() }, "params"
     try {
         const userUpdated = await controller.editUser(id, firstName, lastName, email, password, isAdmin, userData);
         res.status(200).json({
-            Message: "User updated! 🤗🤗🤗",
+            Message: "User updated!",
             user: userUpdated
         })
     } catch (error) {
@@ -101,7 +101,7 @@ router.post('/makeAdmin', checkAuth, async(req, res, next) => {
             isAdmin: user.isAdmin
         }
         res.status(200).json({
-            Message: "User role changed successfully 🎉🍾🎊",
+            Message: "User role changed successfully",
             finalUser
         })
     } catch (error) {

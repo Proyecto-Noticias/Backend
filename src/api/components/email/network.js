@@ -3,22 +3,18 @@ const router = express.Router();
 const controller = require('./controller');
 
 
-router.get('/:token', async (req, res) => {
+router.get('/:token', async (req, res, next) => {
     const { token } = req.params;
     try {
         await controller.verifyToken(token);
 
         res.status(200).redirect("https://alwaysupdate.vercel.app/");
     } catch (error) {
-        console.log(error)
-        const finalMessage = error.message; 
-        res.status(500).json({
-            Message: finalMessage || "Something wrong happend"
-        })
+        next(error)
     }
 })
 
-router.post('/resend', async (req, res) => {
+router.post('/resend', async (req, res, next) => {
     const { email } = req.body;
 
     try {
@@ -27,10 +23,7 @@ router.post('/resend', async (req, res) => {
             Message: "We've sent you an email with a link confirmation to verify your email address!"
         })
     } catch (error) {
-        const finalMessage = error.message; 
-        res.status(500).json({
-            Message: finalMessage || "Something wrong happend"
-        })
+        next(error)
     }
 })
 
