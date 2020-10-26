@@ -45,8 +45,8 @@ const deleteNew = async (id, userData) => {
 
 const specialRoute = async () => {
     let parsedNews = [];
-    let date = new Date().toLocaleDateString("es-MX");
-    let [day, month, year] = date.split('/')
+    let date = new Date().toLocaleDateString("en-US", {timeZone: 'America/Mexico_city'});
+    let [month, day, year] = date.split('/')
     const finalUrl = URL_SCRAPPER + "articles-joined/" + `${year}-${month}-${day}`;
     console.log(finalUrl)    
 
