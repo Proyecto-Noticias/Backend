@@ -53,7 +53,6 @@ const searchNews = async (searchString, page) => {
         $or: [
             { 'title': regex },
             { 'subTitle': regex },
-            { 'body': regex }
         ]
     },{ page, limit: 20 })
 

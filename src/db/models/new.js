@@ -22,7 +22,7 @@ const newSchema = new Schema({
     timestamps: true
 })
 
-newSchema.index({title: 'text', subTitle: 'text', body: 'text'},{
+newSchema.index({title: 'text', subTitle: 'text'},{
     name: 'Title and Sub title index',
     weights: {
         title: 10,

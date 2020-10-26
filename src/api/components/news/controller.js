@@ -2,6 +2,7 @@ const newStore = require("./store");
 const boom = require('@hapi/boom');
 const Axios = require('axios');
 const { URL_SCRAPPER } = process.env;
+const moment = require('moment');
 
 
 const getAllNews = async (page) => {
@@ -45,8 +46,12 @@ const deleteNew = async (id, userData) => {
 
 const specialRoute = async () => {
     let parsedNews = [];
+    const date = new Date();
+    const finalDate = moment(date).format("YYYY-MM-DD");
+    const finalUrl = URL_SCRAPPER + "articles-joined/" + finalDate;
+
     try {
-        const response = await Axios.get(URL_SCRAPPER + "articles-joined/");
+        const response = await Axios.get(finalUrl);
         const myArray = response.data;
         myArray.forEach(element => {
             const myNew = {
