@@ -46,9 +46,12 @@ const deleteNew = async (id, userData) => {
 
 const specialRoute = async () => {
     let parsedNews = [];
-    const date = new Date();
+    let date = new Date();
+    date.setDate(date.getDate() - 1)
     const finalDate = moment(date).format("YYYY-MM-DD");
+    console.log(finalDate)
     const finalUrl = URL_SCRAPPER + "articles-joined/" + finalDate;
+
 
     try {
         const response = await Axios.get(finalUrl);
