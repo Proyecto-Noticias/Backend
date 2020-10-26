@@ -2,7 +2,6 @@ const newStore = require("./store");
 const boom = require('@hapi/boom');
 const Axios = require('axios');
 const { URL_SCRAPPER } = process.env;
-const moment = require('moment');
 
 
 const getAllNews = async (page) => {
@@ -46,11 +45,15 @@ const deleteNew = async (id, userData) => {
 
 const specialRoute = async () => {
     let parsedNews = [];
-    let date = new Date();
-    date.setDate(date.getDate() - 1)
-    const finalDate = moment(date).format("YYYY-MM-DD");
-    console.log(finalDate)
-    const finalUrl = URL_SCRAPPER + "articles-joined/" + finalDate;
+    let date = new Date().toLocaleString("es-MX", {
+        timeZone: "America/Mexico_City",
+        day: 'numeric',
+        month: 'numeric',
+        year: 'numeric'
+    });
+    let [day, month, year] = date.toString().split('/')
+    const finalUrl = URL_SCRAPPER + "articles-joined/" + `${year}-${month}-${day}`;
+    console.log(finalUrl)
 
 
     try {
