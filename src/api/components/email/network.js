@@ -8,7 +8,7 @@ router.get('/:token', async (req, res) => {
     try {
         await controller.verifyToken(token);
 
-        res.status(200).redirect("https://easynews.vercel.app/confirmation");
+        res.status(200).redirect("https://alwaysupdate.vercel.app/");
     } catch (error) {
         console.log(error)
         const finalMessage = error.message; 
@@ -24,7 +24,7 @@ router.post('/resend', async (req, res) => {
     try {
         await controller.resendEmail(email, req.headers.host);
         res.status(200).json({
-            Message: "We've sent you an email with a link confirmation to verify your email address! 🐠"
+            Message: "We've sent you an email with a link confirmation to verify your email address!"
         })
     } catch (error) {
         const finalMessage = error.message; 
