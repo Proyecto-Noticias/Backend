@@ -16,6 +16,7 @@ module.exports = (req, res, next) => {
         req.userData = decoded;
         next();
     } catch (error) {
-        if(error)throw error;
+        if(error.message === "jwt expired") throw boom.unauthorized('Your JWT has been expired');
+        throw boom.internal(error.message);
     }
 }
