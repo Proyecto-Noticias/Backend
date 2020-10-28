@@ -33,7 +33,19 @@ const addNew = async (title, subtitle, articleDate, imageUrl, category, body, ar
     return newsPaperAdded;
 }
 
-const deleteNew = async (id, userData) => {
+const deleteNew = async (id) => {
+    const deleted = await newStore.deleteNew(id);
+    if (!deleted) boom.notFound("New not found");
+    return deleted;
+    /****   
+     * 
+     * 
+     * @TODO Auth validations is not beeing used for a frontend requirement 
+     * 
+     * 
+     * 
+    *****/
+    /*
     if (userData.isAdmin) {
         const deleted = await newStore.deleteNew(id);
         if (!deleted) boom.notFound("New not found");
@@ -41,6 +53,7 @@ const deleteNew = async (id, userData) => {
     } else {
         throw boom.unauthorized("Sorry! you cant made that action! 🔬");
     }
+    */
 }
 
 const specialRoute = async () => {
@@ -82,6 +95,15 @@ const getNewsByCategory = async (category, page) => {
     return await newStore.findByFilter(filter, page);
 }
 
+const getNewsByCountry = async (country, page) => {
+    let filter = {
+        country
+    }
+    const docs =  await newStore.findByFilter(filter, page);
+    if(docs.length === 0 ) throw boom.notFound(`News by ${country} not found`);
+    return docs;
+}
+
 const makeSearch = async (qry, page) => {
     const docs = await newStore.searchNews(qry, page);
     if(docs.length === 0) {
@@ -98,5 +120,6 @@ module.exports = {
     specialRoute,
     getOneNew,
     getNewsByCategory,
-    makeSearch
+    makeSearch,
+    getNewsByCountry
 }

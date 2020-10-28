@@ -1,6 +1,6 @@
 const joi = require('joi');
 
-const categoryNameSchema = joi.string().valid('politics', 'economy', 'sports', 'culture', 'entertaiment', 'technology', 'health-lifestyle', 'general').insensitive();
+const categoryNameSchema = joi.string().valid('politics', 'economy', 'sports', 'culture', 'entertainment', 'technology', 'health-lifestyle', 'general').insensitive();
 const addCategorySchema = joi.string().min(3).max(30);
 
 const addCategoryStat = {

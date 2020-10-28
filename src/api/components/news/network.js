@@ -35,6 +35,21 @@ router.get('/category/:category', async (req, res, next) => {
     }
 })
 
+router.get('/country/:country', async (req, res, next) => {
+    const page = req.query.page || 1;
+    const { country } = req.params;
+
+    const newsByCountry = await controller.getNewsByCountry(country.toLowerCase(), page);
+    try {
+        res.status(200).json({
+            Message: `Here are your news filtered by ${country}`,
+            ...newsByCountry
+        })
+    } catch (error) {
+        next();
+    }
+})
+
 router.get('/', async (req, res, next) => {
     const page = req.query.page || 1;
     try {
@@ -76,11 +91,11 @@ router.post('/', validationHandler(createNewsPapper), checkAuth, async (req, res
     }
 })
 
-router.delete('/:id', validationHandler({id: nppIdSchema}, "params"), checkAuth, async (req, res, next) => {
-    const { userData } = req;
+router.delete('/:id', validationHandler({id: nppIdSchema}, "params"), async (req, res, next) => {
+    //  const { userData } = req;
     const { id } = req.params;
     try {
-        const deleted = await controller.deleteNew(id, userData);
+        const deleted = await controller.deleteNew(id);
         res.status(200).json({
             Message: "New deleted",
             deleted
