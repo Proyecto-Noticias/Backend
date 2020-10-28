@@ -26,7 +26,7 @@ router.get('/:id', validationHandler({ id: userIdSchema }, "params"), async (req
     try {
         const user = await controller.getOneUser(id);
         if(!user){
-            throw boom.notFound("Sorry! but that user looks like doesnt exists 🙏🏾🙏🏾🙏🏾");
+            throw boom.notFound("Sorry! but that user looks like doesnt exists");
         }
         res.status(200).json({
             Message: "Here is your user!",

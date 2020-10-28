@@ -19,8 +19,6 @@ const updateCats = async (cats) => {
         const code = error.message.split(" ")[0];
         if(code !== "E11000") {
             throw error
-        } else {
-            //  console.log(error.message);
         }
     }
 }

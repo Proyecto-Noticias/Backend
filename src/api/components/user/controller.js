@@ -20,7 +20,7 @@ const addUser = async (_id, firstName, lastName, country, email, password, host,
     }
     const emailExists = await userStorage.getUserByFilter({ email });
     if (emailExists.length >= 1) {
-        throw boom.conflict('Email already in use 😪😪😪');
+        throw boom.conflict('Email already in use');
     } else {
         const hashedPassword = await new Promise((resolve, reject) => {
             bcrypt.hash(password, 10, async (err, hashed) => {
@@ -46,7 +46,7 @@ const addUser = async (_id, firstName, lastName, country, email, password, host,
             emailHandler.sendEmail(user.firstName, user.email, finalToken.token, host);
         } catch (error) {
             console.log(error.message)
-            throw boom.internal('Error creating user 💔🙏🏾🙏🏾🙏🏾');
+            throw boom.internal('Error creating user');
         }
     }
 }
