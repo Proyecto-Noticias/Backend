@@ -6,7 +6,7 @@ const TEST_BEARER = "Bearer " + process.env.TEST_BEARER
 
 chai.use(chaiHttp);
 
-describe('User endpoints: ', () => {
+describe('User endpoints tests: ', () => {
     it('Should get every user', (done) => {
         chai.request(server)
             .get('/api/user')

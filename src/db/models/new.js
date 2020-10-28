@@ -15,6 +15,7 @@ const newSchema = new Schema({
         unique: true
     },
     journal: String,
+    country: String,
     scrappingDate: Date,
     sentiment: String
 },{
