@@ -63,7 +63,7 @@ const specialRoute = async () => {
                 body: element.body.replace(/(\n){1,}/g, ""),
                 articleUrl: element.article_url,
                 journal: element.journal,
-                country: element.country,
+                country: element.country.toLowerCase(),
                 scrappingDate: element.scraping_date,
                 sentiment: element.sentiment_classification
             }
