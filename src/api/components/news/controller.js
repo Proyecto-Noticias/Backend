@@ -82,7 +82,8 @@ const specialRoute = async () => {
             }
             parsedNews.push(myNew);
         });
-        await newStore.multipleInserts(parsedNews);
+        const shuffled = parsedNews.sort(() => Math.random() - 0.5);
+        await newStore.multipleInserts(shuffled);
     } catch (error) {
         if (error) throw error
     }    
