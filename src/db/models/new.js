@@ -17,9 +17,16 @@ const newSchema = new Schema({
     journal: String,
     country: String,
     scrappingDate: Date,
-    sentiment: String
+    sentiment: String,
+    createdAt: { 
+        type: Date, 
+        required: true, 
+        default: Date.now, 
+        expires: 1.296e+6
+    }
 },{
     versionKey: false,
+    timestamps: true
 })
 
 newSchema.index({title: 'text', subTitle: 'text'},{

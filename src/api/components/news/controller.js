@@ -5,7 +5,13 @@ const { URL_SCRAPPER } = process.env;
 
 
 const getAllNews = async (page) => {
-    const news = await newStore.getAllNews(page);
+    let date = new Date().toLocaleDateString("en-US", {timeZone: 'America/Mexico_city'});
+    let [month, day, year] = date.split('/')
+    let date2 = new Date(`${year},${month},${day}`)
+    date2.setDate(date2.getDate()-2)
+
+
+    const news = await newStore.getAllNews(page, date2);
     return news;
 }
 

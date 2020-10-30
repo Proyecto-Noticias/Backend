@@ -10,8 +10,15 @@ const getOneById = async (id) => {
     return mNew;
 }
 
-const getAllNews = async (page) => {
-    const news = await Model.paginate({}, { page, limit: 20 });
+const getAllNews = async (page, mdate) => {
+    let filter = {
+        "createdAt": {
+            $gte: mdate
+        }
+    }
+    const number = await Model.countDocuments(filter)
+    const random = Math.floor((Math.random() * (number - 50 )) + 50);
+    const news = await Model.paginate(filter, { page, limit: 50, offset:random });
     return news;
 }
 
