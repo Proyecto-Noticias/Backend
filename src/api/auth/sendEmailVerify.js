@@ -5,7 +5,7 @@ const mg = mailgun({apiKey: API_KEY, domain: DOMAIN});
 
 const sendEmailVerification = (firstname, email, token, host) => {
     const data = {
-        from: 'AlwaysUpdate - Admin <alex.herrera@easynews.tech>',
+        from: 'AlwaysUpdate - Admin <no-reply@mg.easynews.tech>',
         to: `${email}`,
         subject: 'Email Verification - Always Update',
         text: `
@@ -15,9 +15,9 @@ const sendEmailVerification = (firstname, email, token, host) => {
 
     mg.messages().send(data, function (error, body) {
         if (error) {
-            console.log(error);
+            console.log(error)
         }
-        return body;
+        return body
     });
 }
 
