@@ -3,7 +3,6 @@ const router = express.Router()
 const controller = require('./controller');
 const { userIdSchema, createUserSchema, updateUserSchema, loginSchema } = require('../../../utils/validation/userSchemas');
 const validationHandler = require('../../../utils/middlewares/validationHandler');
-//  const mock = require('../../../mocks/mock_users')
 const checkAuth = require('../../../utils/middlewares/check-auth');
 const boom = require('@hapi/boom');
 

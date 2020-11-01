@@ -15,9 +15,7 @@ const getOneUser = async (id) => {
 }
 
 const addUser = async (_id, firstName, lastName, country, email, password, host, isVerified) => {
-    if (!firstName || !lastName || !email || !password || !country) {
-        throw boom.badData('Missing data');
-    }
+
     const emailExists = await userStorage.getUserByFilter({ email });
     if (emailExists.length >= 1) {
         throw boom.conflict('Email already in use');
@@ -57,7 +55,7 @@ const login = async (email, password) => {
     }
     const user = await userStorage.findOneUser({ email });
     if (!user) {
-        throw boom.notFound("that user doesnt exists!");
+        throw boom.notFound("That user doesnt exists!");
     }
     if (user.isVerified) {
         const result = await bcrypt.compare(password, user.password);
@@ -82,7 +80,7 @@ const login = async (email, password) => {
 
 const deleteUser = async (id, jwtUser) => {
     if (id !== jwtUser.id && !jwtUser.isAdmin) {
-        throw boom.unauthorized('you dont have permissions to do that action 😔🙏');
+        throw boom.unauthorized('You dont have permissions to do that action 😔🙏');
     }
 
     await userStorage.deleteOneUser({ _id: id });
@@ -91,7 +89,7 @@ const deleteUser = async (id, jwtUser) => {
 const editUser = async (id, name, last, email, password, isAdmin, jwtUser) => {
 
     if (id !== jwtUser.id && !jwtUser.isAdmin) {
-        throw boom.unauthorized('you dont have permissions to do that action');
+        throw boom.unauthorized('You dont have permissions to do that action');
     }
     if (!id) {
         throw boom.badRequest('Id is needed!');
