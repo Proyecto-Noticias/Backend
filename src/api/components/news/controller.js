@@ -8,7 +8,8 @@ const getAllNews = async (page) => {
     let date = new Date().toLocaleDateString("en-US", {timeZone: 'America/Mexico_city'});
     let [month, day, year] = date.split('/')
     let date2 = new Date(`${year},${month},${day}`)
-    date2.setDate(date2.getDate()-2)
+    date2.setDate(date2.getDate())
+    console.log(date2)
 
 
     const news = await newStore.getAllNews(page, date2);
@@ -66,6 +67,7 @@ const specialRoute = async () => {
     let parsedNews = [];
     let date = new Date().toLocaleDateString("en-US", {timeZone: 'America/Mexico_city'});
     let [month, day, year] = date.split('/')
+    if(day.length === 1) day = '0' + day
     const finalUrl = URL_SCRAPPER + "articles-joined/" + `${year}-${month}-${day}`;
     console.log(finalUrl)
 
