@@ -1,3 +1,9 @@
+///// START CODE REVIEW COMMENT
+
+// Excellent code!
+
+///// END CODE REVIEW COMMENT
+
 const joi = require('joi');
 
 const nppIdSchema = joi.string().regex(/^[0-9a-fA-F]{24}$/);
