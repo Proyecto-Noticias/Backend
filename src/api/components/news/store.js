@@ -17,7 +17,7 @@ const getAllNews = async (page, mdate) => {
         }
     }
     const number = await Model.countDocuments(filter)
-    const random = Math.floor((Math.random() * (number - 50 )) + 50);
+    const random = Math.floor((Math.random() * ((number - 50) - 0)) + 0);
     const news = await Model.paginate(filter, { page, limit: 50, offset:random });
     return news;
 }

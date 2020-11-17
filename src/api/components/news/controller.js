@@ -9,8 +9,6 @@ const getAllNews = async (page) => {
     let [month, day, year] = date.split('/')
     let date2 = new Date(`${year},${month},${day}`)
     date2.setDate(date2.getDate())
-    console.log(date2)
-
 
     const news = await newStore.getAllNews(page, date2);
     return news;
@@ -98,15 +96,29 @@ const specialRoute = async () => {
 }
 
 const getNewsByCategory = async (category, page) => {
+    let date = new Date().toLocaleDateString("en-US", {timeZone: 'America/Mexico_city'});
+    let [month, day, year] = date.split('/')
+    let date2 = new Date(`${year},${month},${day}`)
     let filter = {
-        category
+        category,
+        "createdAt": {
+            $gte: date2
+        }
     }
+
     return await newStore.findByFilter(filter, page);
 }
 
 const getNewsByCountry = async (country, page) => {
+    let date = new Date().toLocaleDateString("en-US", {timeZone: 'America/Mexico_city'});
+    let [month, day, year] = date.split('/')
+    let date2 = new Date(`${year},${month},${day}`)
+
     let filter = {
-        country
+        country,
+        "createdAt": {
+            $gte: date2
+        }
     }
     const docs =  await newStore.findByFilter(filter, page);
     if(docs.length === 0 ) throw boom.notFound(`News by ${country} not found`);
